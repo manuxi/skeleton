@@ -1,0 +1,25 @@
+RewriteEngine On
+
+RewriteBase /
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{HTTP_HOST} !local
+RewriteCond %{HTTP_HOST} !test
+RewriteCond %{HTTP_HOST} !staging
+RewriteCond %{HTTP_HOST} !^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+RewriteRule ^ %1 [L,NE,R=302]
+
+RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+
+AddType video/mp4 .mp4
+AddType video/x-m4v .m4v
+AddType video/webm .webm
+AddType audio/webm .weba
+AddType video/ogg .ogm
+AddType video/ogg .ogv
+AddType video/ogg .ogg
